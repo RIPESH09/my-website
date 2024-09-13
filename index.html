@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Call me</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to the external CSS file -->
+</head>
+<body>
+    <h1>Hello</h1>
+    <h2><span id="click-counter">0</span></h2>
+
+    <script>
+        // Retrieve the total click count from local storage
+        let totalClicks = localStorage.getItem('totalClicks') || 0;
+        document.getElementById('click-counter').textContent = totalClicks;
+
+        document.body.addEventListener('click', function(e) {
+            // Increment the click count
+            totalClicks++;
+            document.getElementById('click-counter').textContent = totalClicks;
+
+            // Store the updated click count in local storage
+            localStorage.setItem('totalClicks', totalClicks);
+
+            // Create the heart emoji element
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.style.left = `${e.clientX}px`;
+            heart.style.top = `${e.clientY}px`;
+            heart.textContent = '❤️';
+            document.body.appendChild(heart);
+         
+            // Remove the heart after the animation ends
+            setTimeout(() => {
+                heart.remove();
+            }, 1000); // 1 second (same as animation duration)
+        });
+    </script>
+</body>
+</html>
