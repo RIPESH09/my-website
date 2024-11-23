@@ -3,39 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Call me</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Link to the external CSS file -->
+    <title>Countdown Timer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-image: url('wall1.jpg'); /* Background image */
+            background-size: cover; /* Cover the entire page */
+            background-position: center; /* Center the background image */
+            margin: 0;
+            color: white; /* Ensure text is visible against the background */
+        }
+        .countdown {
+            font-size: 40px;
+            background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent black background for readability */
+            padding: 20px;
+            border-radius: 10px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Hello</h1>
-    <h2><span id="click-counter">0</span></h2>
+    <div class="countdown" id="countdown"></div>
 
     <script>
-        // Retrieve the total click count from local storage
-        let totalClicks = localStorage.getItem('totalClicks') || 0;
-        document.getElementById('click-counter').textContent = totalClicks;
+        // Set the target date to December 29th, 11:59 PM (11:59:00)
+        const targetDate = new Date('December 29, 2024 23:59:00');
 
-        document.body.addEventListener('click', function(e) {
-            // Increment the click count
-            totalClicks++;
-            document.getElementById('click-counter').textContent = totalClicks;
+        // Function to update the countdown
+        function updateCountdown() {
+            const currentDate = new Date();
+            const timeRemaining = targetDate - currentDate;
 
-            // Store the updated click count in local storage
-            localStorage.setItem('totalClicks', totalClicks);
+            if (timeRemaining <= 0) {
+                document.getElementById("countdown").innerHTML = "Countdown finished!";
+                clearInterval(interval); // Stop the countdown when finished
+                return;
+            }
 
-            // Create the heart emoji element
-            const heart = document.createElement('div');
-            heart.classList.add('heart');
-            heart.style.left = `${e.clientX}px`;
-            heart.style.top = `${e.clientY}px`;
-            heart.textContent = '❤️';
-            document.body.appendChild(heart);
-         
-            // Remove the heart after the animation ends
-            setTimeout(() => {
-                heart.remove();
-            }, 1000); // 1 second (same as animation duration)
-        });
+            const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+            // Display the countdown
+            document.getElementById("countdown").innerHTML = 
+                days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+        }
+
+        // Update the countdown every second
+        const interval = setInterval(updateCountdown, 1000);
     </script>
 </body>
 </html>
+
