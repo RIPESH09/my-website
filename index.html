@@ -3,38 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cosmic Countdown</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>Cosmic Explorer</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --primary: #8a2be2;
-            --secondary: #ff00ff;
-            --accent: #00ffff;
-            --dark: #0c0c1d;
-            --light: #ffffff;
-            --glass: rgba(255, 255, 255, 0.05);
-            --glow: 0 0 15px var(--accent), 0 0 30px rgba(0, 195, 255, 0.3);
-        }
-        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
         body {
-            font-family: 'Exo 2', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
             background: linear-gradient(135deg, #0c0c1d, #1a0a2e, #2d0a3a);
-            color: var(--light);
-            overflow: hidden;
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
             position: relative;
         }
-        
+
         body::before {
             content: '';
             position: absolute;
@@ -48,7 +34,7 @@
                 radial-gradient(circle at 50% 10%, rgba(0, 255, 255, 0.1) 0%, transparent 40%);
             z-index: -1;
         }
-        
+
         .stars {
             position: fixed;
             top: 0;
@@ -58,7 +44,7 @@
             pointer-events: none;
             z-index: -1;
         }
-        
+
         .star {
             position: absolute;
             background-color: white;
@@ -66,231 +52,293 @@
             animation: twinkle var(--duration, 5s) infinite ease-in-out;
             opacity: var(--opacity, 0.7);
         }
-        
+
         @keyframes twinkle {
             0%, 100% { opacity: 0.2; }
             50% { opacity: 1; }
         }
-        
+
         .container {
             max-width: 1200px;
             width: 95%;
-            text-align: center;
-            padding: 2rem;
-            z-index: 10;
+            margin: 0 auto;
+            padding: 20px;
         }
-        
-        .header {
-            margin-bottom: 3rem;
+
+        header {
             text-align: center;
+            padding: 40px 0;
+            position: relative;
         }
-        
+
         h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 3.5rem;
-            font-weight: 900;
-            margin-bottom: 1rem;
+            font-size: 5rem;
+            margin-bottom: 20px;
             text-transform: uppercase;
-            letter-spacing: 3px;
-            background: linear-gradient(90deg, var(--accent), var(--secondary), var(--primary));
+            letter-spacing: 5px;
+            background: linear-gradient(90deg, #8a2be2, #ff00ff, #00ffff);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            text-shadow: 0 0 10px rgba(0, 195, 255, 0.3);
+            text-shadow: 0 0 20px rgba(0, 195, 255, 0.5);
             animation: pulse 3s infinite alternate;
         }
-        
+
         @keyframes pulse {
-            0% { text-shadow: 0 0 10px rgba(0, 195, 255, 0.3); }
-            100% { text-shadow: 0 0 20px rgba(0, 195, 255, 0.7), 0 0 30px rgba(138, 43, 226, 0.5); }
+            0% { text-shadow: 0 0 10px rgba(0, 195, 255, 0.5); }
+            100% { text-shadow: 0 0 30px rgba(0, 195, 255, 0.8), 0 0 50px rgba(138, 43, 226, 0.6); }
         }
-        
-        .subtitle {
+
+        .tagline {
             font-size: 1.5rem;
-            font-weight: 300;
-            margin-bottom: 0.5rem;
             color: #d0d0ff;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
         }
-        
-        .date-display {
-            font-size: 1.8rem;
-            font-weight: 600;
-            color: var(--accent);
-            margin-bottom: 2rem;
-            letter-spacing: 1px;
+
+        .main-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
         }
-        
-        .countdown-container {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            flex-wrap: wrap;
-            margin-bottom: 3rem;
-        }
-        
-        .countdown-box {
-            width: 180px;
-            height: 200px;
-            background: var(--glass);
-            border-radius: 15px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+
+        .card {
+            background: rgba(30, 30, 60, 0.6);
+            border-radius: 20px;
+            padding: 30px;
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
             position: relative;
             overflow: hidden;
+            min-height: 300px;
         }
-        
-        .countdown-box:hover {
+
+        .card:hover {
             transform: translateY(-10px);
-            box-shadow: var(--glow);
-            border: 1px solid var(--accent);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), 0 0 30px rgba(0, 195, 255, 0.4);
+            border-color: #00ffff;
         }
-        
-        .countdown-box::before {
+
+        .card::before {
             content: '';
             position: absolute;
             top: -50%;
             left: -50%;
             width: 200%;
             height: 200%;
-            background: conic-gradient(transparent, var(--accent), transparent 30%);
+            background: conic-gradient(transparent, #00ffff, transparent 30%);
             animation: rotate 4s linear infinite;
         }
-        
-        .countdown-box::after {
+
+        .card::after {
             content: '';
             position: absolute;
-            inset: 4px;
+            inset: 2px;
             background: linear-gradient(145deg, rgba(20, 20, 40, 0.9), rgba(10, 10, 25, 0.9));
-            border-radius: 12px;
+            border-radius: 18px;
         }
-        
+
         @keyframes rotate {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        
-        .countdown-value {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 4rem;
-            font-weight: 700;
+
+        .card h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #00ffff;
+            position: relative;
             z-index: 2;
-            color: var(--light);
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
         }
-        
-        .countdown-label {
-            font-size: 1.2rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-top: 0.5rem;
+
+        .card-content {
+            position: relative;
             z-index: 2;
-            color: #b0b0ff;
         }
-        
-        .progress-container {
-            width: 100%;
-            height: 20px;
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 10px;
-            margin: 2rem auto;
-            overflow: hidden;
-            max-width: 800px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            width: 0%;
-            border-radius: 10px;
-            transition: width 1s ease-out;
-            box-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
-        }
-        
-        .progress-text {
-            margin-top: 0.5rem;
+
+        .card p {
             font-size: 1.1rem;
-            color: var(--accent);
+            line-height: 1.6;
+            margin-bottom: 20px;
+            color: #e0e0ff;
         }
-        
-        .message {
-            font-size: 1.8rem;
-            margin: 2rem 0;
-            min-height: 60px;
-            color: var(--accent);
-            font-weight: 600;
-            text-shadow: 0 0 10px rgba(0, 195, 255, 0.3);
-        }
-        
-        .controls {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 2rem;
-            flex-wrap: wrap;
-        }
-        
-        .control-btn {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border: none;
-            padding: 12px 25px;
-            border-radius: 50px;
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #8a2be2, #ff00ff);
             color: white;
-            font-family: 'Exo 2', sans-serif;
-            font-size: 1rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 5px 15px rgba(138, 43, 226, 0.4);
+            position: relative;
+            overflow: hidden;
+            z-index: 2;
+            margin-top: 10px;
         }
-        
-        .control-btn:hover {
+
+        .btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 20px rgba(138, 43, 226, 0.6);
         }
-        
-        .control-btn:active {
+
+        .btn:active {
             transform: translateY(1px);
         }
-        
-        .theme-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: var(--glass);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
+
+        .interactive-section {
+            margin: 60px 0;
+            text-align: center;
+        }
+
+        .interactive-title {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: #ff00ff;
+            text-shadow: 0 0 15px rgba(255, 0, 255, 0.5);
+        }
+
+        .canvas-container {
+            width: 100%;
+            max-width: 800px;
+            height: 500px;
+            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            border: 2px solid #8a2be2;
+            box-shadow: 0 0 30px rgba(138, 43, 226, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%;
+        }
+
+        .controls {
+            margin-top: 20px;
             display: flex;
             justify-content: center;
-            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .control-btn {
+            padding: 10px 25px;
+            background: rgba(138, 43, 226, 0.3);
+            color: white;
+            border: 1px solid #8a2be2;
+            border-radius: 50px;
             cursor: pointer;
-            z-index: 100;
-            backdrop-filter: blur(5px);
             transition: all 0.3s ease;
         }
-        
-        .theme-toggle:hover {
-            transform: rotate(30deg);
-            box-shadow: var(--glow);
-            border-color: var(--accent);
+
+        .control-btn:hover {
+            background: rgba(138, 43, 226, 0.6);
+            transform: scale(1.05);
         }
-        
-        .theme-toggle i {
+
+        .trivia-section {
+            margin: 60px 0;
+            text-align: center;
+        }
+
+        .trivia-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(30, 30, 60, 0.6);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .question {
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            color: #00ffff;
+        }
+
+        .options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .option {
+            padding: 20px;
+            background: rgba(138, 43, 226, 0.2);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .option:hover {
+            background: rgba(138, 43, 226, 0.4);
+            border-color: #8a2be2;
+            transform: translateY(-5px);
+        }
+
+        .result {
             font-size: 1.5rem;
-            color: var(--accent);
+            margin-top: 20px;
+            min-height: 50px;
+            color: #ff00ff;
         }
-        
+
+        footer {
+            text-align: center;
+            padding: 40px 0;
+            color: #b0b0ff;
+            font-size: 1.1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 60px;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 3.5rem;
+            }
+            
+            .options {
+                grid-template-columns: 1fr;
+            }
+            
+            .canvas-container {
+                height: 400px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .tagline {
+                font-size: 1.2rem;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+            
+            .card h2 {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* Particle animation */
         .particles {
             position: fixed;
             top: 0;
@@ -300,78 +348,20 @@
             pointer-events: none;
             z-index: 1;
         }
-        
-        .confetti {
+
+        .particle {
             position: absolute;
             width: 10px;
             height: 10px;
             background: var(--color);
             border-radius: 50%;
-            animation: fall linear forwards;
+            animation: float linear forwards;
         }
-        
-        @keyframes fall {
+
+        @keyframes float {
             to {
-                transform: translateY(100vh) rotate(360deg);
+                transform: translateY(-100vh) rotate(360deg);
                 opacity: 0;
-            }
-        }
-        
-        /* Responsive design */
-        @media (max-width: 900px) {
-            .countdown-box {
-                width: 150px;
-                height: 170px;
-            }
-            
-            .countdown-value {
-                font-size: 3.2rem;
-            }
-            
-            h1 {
-                font-size: 2.8rem;
-            }
-        }
-        
-        @media (max-width: 650px) {
-            .countdown-box {
-                width: 120px;
-                height: 140px;
-            }
-            
-            .countdown-value {
-                font-size: 2.5rem;
-            }
-            
-            .countdown-label {
-                font-size: 1rem;
-            }
-            
-            h1 {
-                font-size: 2.2rem;
-            }
-            
-            .date-display {
-                font-size: 1.4rem;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .countdown-box {
-                width: 100px;
-                height: 120px;
-            }
-            
-            .countdown-value {
-                font-size: 2rem;
-            }
-            
-            h1 {
-                font-size: 1.8rem;
-            }
-            
-            .subtitle {
-                font-size: 1.2rem;
             }
         }
     </style>
@@ -380,55 +370,97 @@
     <div class="stars" id="stars"></div>
     <div class="particles" id="particles"></div>
     
-    <div class="theme-toggle" id="themeToggle">
-        <i class="fas fa-moon"></i>
+    <div class="container">
+        <header>
+            <h1>Cosmic Explorer</h1>
+            <p class="tagline">Embark on an interstellar journey through the wonders of our universe. Discover, interact, and explore the cosmos like never before.</p>
+        </header>
+        
+        <div class="main-content">
+            <div class="card">
+                <div class="card-content">
+                    <h2>Galaxy Generator</h2>
+                    <p>Create your own unique galaxy by adjusting cosmic parameters. Watch as stars, nebulae, and planets form in real-time.</p>
+                    <button class="btn" id="galaxyBtn">Generate Galaxy</button>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-content">
+                    <h2>Black Hole Simulator</h2>
+                    <p>Experience the gravitational pull of a black hole. See how light bends and matter behaves near these cosmic phenomena.</p>
+                    <button class="btn" id="blackholeBtn">Enter Event Horizon</button>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-content">
+                    <h2>Alien Translator</h2>
+                    <p>Communicate with extraterrestrial life forms using our advanced translation matrix. Decode messages from distant civilizations.</p>
+                    <button class="btn" id="translatorBtn">Activate Translator</button>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-content">
+                    <h2>Cosmic Soundscape</h2>
+                    <p>Listen to the music of the spheres. Hear the electromagnetic waves converted into haunting cosmic melodies.</p>
+                    <button class="btn" id="soundBtn">Play Universe</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="interactive-section">
+            <h2 class="interactive-title">Stellar Nebula Painter</h2>
+            <div class="canvas-container">
+                <canvas id="nebulaCanvas"></canvas>
+            </div>
+            <div class="controls">
+                <button class="control-btn" id="clearBtn">Clear Canvas</button>
+                <button class="control-btn" id="starBtn">Add Stars</button>
+                <button class="control-btn" id="animateBtn">Animate</button>
+                <button class="control-btn" id="saveBtn">Save Image</button>
+            </div>
+        </div>
+        
+        <div class="trivia-section">
+            <h2 class="interactive-title">Cosmic Knowledge Challenge</h2>
+            <div class="trivia-container">
+                <div class="question" id="question">How many Earths could fit inside the Sun?</div>
+                <div class="options">
+                    <div class="option" data-correct="true">1.3 million</div>
+                    <div class="option">130,000</div>
+                    <div class="option">13 million</div>
+                    <div class="option">130 million</div>
+                </div>
+                <div class="result" id="result"></div>
+                <button class="btn" id="nextBtn">Next Question</button>
+            </div>
+        </div>
+        
+        <div class="interactive-section">
+            <h2 class="interactive-title">Gravity Simulator</h2>
+            <div class="canvas-container">
+                <canvas id="gravityCanvas"></canvas>
+            </div>
+            <div class="controls">
+                <button class="control-btn" id="addPlanetBtn">Add Planet</div>
+                <button class="control-btn" id="resetGravityBtn">Reset</div>
+                <button class="control-btn" id="addBlackholeBtn">Add Black Hole</div>
+            </div>
+        </div>
     </div>
     
-    <div class="container">
-        <div class="header">
-            <h1>Cosmic Countdown</h1>
-            <div class="subtitle">Journey to the Future</div>
-            <div class="date-display" id="targetDate">December 29, 2025 23:59:00</div>
-        </div>
-        
-        <div class="countdown-container">
-            <div class="countdown-box">
-                <div class="countdown-value" id="days">00</div>
-                <div class="countdown-label">Days</div>
-            </div>
-            <div class="countdown-box">
-                <div class="countdown-value" id="hours">00</div>
-                <div class="countdown-label">Hours</div>
-            </div>
-            <div class="countdown-box">
-                <div class="countdown-value" id="minutes">00</div>
-                <div class="countdown-label">Minutes</div>
-            </div>
-            <div class="countdown-box">
-                <div class="countdown-value" id="seconds">00</div>
-                <div class="countdown-label">Seconds</div>
-            </div>
-        </div>
-        
-        <div class="progress-container">
-            <div class="progress-bar" id="progressBar"></div>
-        </div>
-        <div class="progress-text" id="progressText">Progress: 0%</div>
-        
-        <div class="message" id="message">The countdown has begun...</div>
-        
-        <div class="controls">
-            <button class="control-btn" id="pauseBtn"><i class="fas fa-pause"></i> Pause</button>
-            <button class="control-btn" id="resumeBtn"><i class="fas fa-play"></i> Resume</button>
-            <button class="control-btn" id="celebrateBtn"><i class="fas fa-party-horn"></i> Celebrate</button>
-        </div>
-    </div>
+    <footer>
+        <p>Created with <i class="fas fa-heart" style="color: #ff00ff;"></i> | Cosmic Explorer | Journey through the universe</p>
+        <p>© 2023 Interstellar Experiences. All rights reserved across the cosmos.</p>
+    </footer>
     
     <script>
         // Create stars background
         function createStars() {
             const starsContainer = document.getElementById('stars');
-            const starCount = 150;
+            const starCount = 300;
             
             for (let i = 0; i < starCount; i++) {
                 const star = document.createElement('div');
@@ -453,169 +485,485 @@
             }
         }
         
-        // Set the target date to December 29th, 11:59 PM
-        const targetDate = new Date('December 29, 2024 23:59:00');
-        let isPaused = false;
-        let interval;
-        let startDate = new Date();
-        
-        // DOM Elements
-        const daysEl = document.getElementById('days');
-        const hoursEl = document.getElementById('hours');
-        const minutesEl = document.getElementById('minutes');
-        const secondsEl = document.getElementById('seconds');
-        const progressBar = document.getElementById('progressBar');
-        const progressText = document.getElementById('progressText');
-        const messageEl = document.getElementById('message');
-        const pauseBtn = document.getElementById('pauseBtn');
-        const resumeBtn = document.getElementById('resumeBtn');
-        const celebrateBtn = document.getElementById('celebrateBtn');
-        const themeToggle = document.getElementById('themeToggle');
-        
-        // Messages to display during countdown
-        const messages = [
-            "The countdown has begun...",
-            "Time is ticking...",
-            "Every moment brings us closer!",
-            "Patience is a virtue...",
-            "The future is approaching fast!",
-            "Adventure awaits!",
-            "Prepare for something amazing!",
-            "The anticipation builds...",
-            "Great things are coming!",
-            "Almost there..."
-        ];
-        
-        // Function to create confetti
-        function createConfetti() {
+        // Create floating particles
+        function createParticles() {
             const particlesContainer = document.getElementById('particles');
-            particlesContainer.innerHTML = '';
-            
+            const particleCount = 50;
             const colors = ['#ff00ff', '#8a2be2', '#00ffff', '#ff1493', '#7fff00'];
-            const count = 150;
             
-            for (let i = 0; i < count; i++) {
-                const confetti = document.createElement('div');
-                confetti.classList.add('confetti');
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
                 
                 // Random properties
-                const size = 5 + Math.random() * 10;
+                const size = 1 + Math.random() * 5;
                 const posX = Math.random() * 100;
-                const duration = 2 + Math.random() * 3;
+                const duration = 10 + Math.random() * 20;
                 const delay = Math.random() * 5;
                 const color = colors[Math.floor(Math.random() * colors.length)];
                 
-                confetti.style.width = `${size}px`;
-                confetti.style.height = `${size}px`;
-                confetti.style.left = `${posX}%`;
-                confetti.style.backgroundColor = color;
-                confetti.style.setProperty('--color', color);
-                confetti.style.animation = `fall ${duration}s linear ${delay}s forwards`;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${posX}%`;
+                particle.style.backgroundColor = color;
+                particle.style.setProperty('--color', color);
+                particle.style.animation = `float ${duration}s linear ${delay}s forwards`;
                 
-                particlesContainer.appendChild(confetti);
+                particlesContainer.appendChild(particle);
+                
+                // Remove particle after animation completes
+                setTimeout(() => {
+                    particle.remove();
+                }, (duration + delay) * 1000);
+            }
+            
+            // Continuously create new particles
+            setTimeout(createParticles, 1000);
+        }
+        
+        // Nebula painter
+        const nebulaCanvas = document.getElementById('nebulaCanvas');
+        const nebulaCtx = nebulaCanvas.getContext('2d');
+        let isPainting = false;
+        let hue = 0;
+        let animationId = null;
+        
+        function setupNebulaCanvas() {
+            nebulaCanvas.width = nebulaCanvas.offsetWidth;
+            nebulaCanvas.height = nebulaCanvas.offsetHeight;
+            nebulaCtx.fillStyle = 'rgba(10, 5, 30, 0.8)';
+            nebulaCtx.fillRect(0, 0, nebulaCanvas.width, nebulaCanvas.height);
+        }
+        
+        function startPainting(e) {
+            isPainting = true;
+            draw(e);
+        }
+        
+        function stopPainting() {
+            isPainting = false;
+            nebulaCtx.beginPath();
+        }
+        
+        function draw(e) {
+            if (!isPainting) return;
+            
+            nebulaCtx.lineWidth = 30;
+            nebulaCtx.lineCap = 'round';
+            nebulaCtx.strokeStyle = `hsl(${hue}, 100%, 60%)`;
+            
+            nebulaCtx.lineTo(e.clientX - nebulaCanvas.getBoundingClientRect().left, 
+                             e.clientY - nebulaCanvas.getBoundingClientRect().top);
+            nebulaCtx.stroke();
+            nebulaCtx.beginPath();
+            nebulaCtx.moveTo(e.clientX - nebulaCanvas.getBoundingClientRect().left, 
+                            e.clientY - nebulaCanvas.getBoundingClientRect().top);
+            
+            hue++;
+            if (hue >= 360) hue = 0;
+        }
+        
+        function clearCanvas() {
+            nebulaCtx.fillStyle = 'rgba(10, 5, 30, 0.8)';
+            nebulaCtx.fillRect(0, 0, nebulaCanvas.width, nebulaCanvas.height);
+        }
+        
+        function addStars() {
+            const starCount = 50;
+            
+            for (let i = 0; i < starCount; i++) {
+                const x = Math.random() * nebulaCanvas.width;
+                const y = Math.random() * nebulaCanvas.height;
+                const radius = Math.random() * 3;
+                const brightness = 0.7 + Math.random() * 0.3;
+                
+                nebulaCtx.beginPath();
+                nebulaCtx.arc(x, y, radius, 0, Math.PI * 2);
+                nebulaCtx.fillStyle = `rgba(255, 255, 255, ${brightness})`;
+                nebulaCtx.fill();
             }
         }
         
-        // Function to update the countdown
-        function updateCountdown() {
-            if (isPaused) return;
-            
-            const currentDate = new Date();
-            const timeRemaining = targetDate - currentDate;
-            
-            if (timeRemaining <= 0) {
-                daysEl.textContent = '00';
-                hoursEl.textContent = '00';
-                minutesEl.textContent = '00';
-                secondsEl.textContent = '00';
-                progressBar.style.width = '100%';
-                progressText.textContent = 'Progress: 100%';
-                messageEl.textContent = "The moment has arrived! 🎉";
-                clearInterval(interval);
-                createConfetti();
+        function animateNebula() {
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+                animationId = null;
                 return;
             }
             
-            const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
-            
-            // Update display
-            daysEl.textContent = days.toString().padStart(2, '0');
-            hoursEl.textContent = Math.floor(hours).toString().padStart(2, '0');
-            minutesEl.textContent = Math.floor(minutes).toString().padStart(2, '0');
-            secondsEl.textContent = seconds.toString().padStart(2, '0');
-            
-            // Calculate and update progress
-            const totalDuration = targetDate - startDate;
-            const elapsed = totalDuration - timeRemaining;
-            const progressPercent = (elapsed / totalDuration) * 100;
-            
-            progressBar.style.width = `${Math.min(100, progressPercent)}%`;
-            progressText.textContent = `Progress: ${Math.min(100, Math.round(progressPercent))}%`;
-            
-            // Randomly update message every 10 seconds
-            if (seconds % 10 === 0) {
-                const randomIndex = Math.floor(Math.random() * messages.length);
-                messageEl.textContent = messages[randomIndex];
+            function animate() {
+                nebulaCtx.fillStyle = 'rgba(10, 5, 30, 0.05)';
+                nebulaCtx.fillRect(0, 0, nebulaCanvas.width, nebulaCanvas.height);
+                
+                // Move existing stars
+                const imageData = nebulaCtx.getImageData(0, 0, nebulaCanvas.width, nebulaCanvas.height);
+                nebulaCtx.putImageData(imageData, 1, 0);
+                
+                // Add new stars at the left
+                for (let i = 0; i < 2; i++) {
+                    const y = Math.random() * nebulaCanvas.height;
+                    const radius = Math.random() * 2;
+                    const brightness = 0.5 + Math.random() * 0.5;
+                    
+                    nebulaCtx.beginPath();
+                    nebulaCtx.arc(0, y, radius, 0, Math.PI * 2);
+                    nebulaCtx.fillStyle = `rgba(255, 255, 255, ${brightness})`;
+                    nebulaCtx.fill();
+                }
+                
+                animationId = requestAnimationFrame(animate);
             }
             
-            // Animate the numbers
-            animateNumber(daysEl, days);
-            animateNumber(hoursEl, Math.floor(hours));
-            animateNumber(minutesEl, Math.floor(minutes));
-            animateNumber(secondsEl, seconds);
+            animate();
         }
         
-        // Function to animate number changes
-        function animateNumber(element, newValue) {
-            if (element.textContent !== newValue.toString().padStart(2, '0')) {
-                element.style.transform = 'scale(1.2)';
-                element.style.color = '#ff00ff';
-                setTimeout(() => {
-                    element.style.transform = 'scale(1)';
-                    element.style.color = 'white';
-                }, 300);
+        function saveCanvas() {
+            const link = document.createElement('a');
+            link.download = 'cosmic-nebula.png';
+            link.href = nebulaCanvas.toDataURL();
+            link.click();
+        }
+        
+        // Gravity simulator
+        const gravityCanvas = document.getElementById('gravityCanvas');
+        const gravityCtx = gravityCanvas.getContext('2d');
+        let planets = [];
+        let blackHole = null;
+        let animationFrameId = null;
+        
+        function setupGravityCanvas() {
+            gravityCanvas.width = gravityCanvas.offsetWidth;
+            gravityCanvas.height = gravityCanvas.offsetHeight;
+        }
+        
+        class Planet {
+            constructor(x, y, vx, vy, mass, color) {
+                this.x = x;
+                this.y = y;
+                this.vx = vx;
+                this.vy = vy;
+                this.mass = mass;
+                this.radius = Math.sqrt(mass) * 2;
+                this.color = color;
+            }
+            
+            draw() {
+                gravityCtx.beginPath();
+                gravityCtx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                gravityCtx.fillStyle = this.color;
+                gravityCtx.fill();
+                
+                // Add glow effect
+                const gradient = gravityCtx.createRadialGradient(
+                    this.x, this.y, this.radius,
+                    this.x, this.y, this.radius * 3
+                );
+                gradient.addColorStop(0, this.color);
+                gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+                
+                gravityCtx.beginPath();
+                gravityCtx.arc(this.x, this.y, this.radius * 3, 0, Math.PI * 2);
+                gravityCtx.fillStyle = gradient;
+                gravityCtx.fill();
+            }
+            
+            update() {
+                // Apply gravity from black hole
+                if (blackHole) {
+                    const dx = blackHole.x - this.x;
+                    const dy = blackHole.y - this.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < blackHole.radius * 3) {
+                        // Planet gets consumed by black hole
+                        this.mass = 0;
+                        return;
+                    }
+                    
+                    const force = blackHole.mass / (distance * distance);
+                    const angle = Math.atan2(dy, dx);
+                    
+                    this.vx += force * Math.cos(angle) * 0.1;
+                    this.vy += force * Math.sin(angle) * 0.1;
+                }
+                
+                // Apply gravity from other planets
+                for (const otherPlanet of planets) {
+                    if (otherPlanet === this) continue;
+                    
+                    const dx = otherPlanet.x - this.x;
+                    const dy = otherPlanet.y - this.y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    // Prevent infinite forces at very small distances
+                    if (distance < 5) continue;
+                    
+                    const force = otherPlanet.mass / (distance * distance);
+                    const angle = Math.atan2(dy, dx);
+                    
+                    this.vx += force * Math.cos(angle) * 0.01;
+                    this.vy += force * Math.sin(angle) * 0.01;
+                }
+                
+                // Update position
+                this.x += this.vx;
+                this.y += this.vy;
+                
+                // Bounce off walls
+                if (this.x < this.radius || this.x > gravityCanvas.width - this.radius) {
+                    this.vx *= -0.8;
+                }
+                if (this.y < this.radius || this.y > gravityCanvas.height - this.radius) {
+                    this.vy *= -0.8;
+                }
             }
         }
         
-        // Initialize
-        function init() {
-            createStars();
-            updateCountdown();
-            interval = setInterval(updateCountdown, 1000);
+        class BlackHole {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.mass = 1000;
+                this.radius = 30;
+            }
             
-            // Event listeners
-            pauseBtn.addEventListener('click', () => {
-                isPaused = true;
-                messageEl.textContent = "Countdown paused...";
-            });
+            draw() {
+                // Black hole
+                gravityCtx.beginPath();
+                gravityCtx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                gravityCtx.fillStyle = 'black';
+                gravityCtx.fill();
+                
+                // Accretion disk
+                for (let i = 0; i < 3; i++) {
+                    const radius = this.radius + 15 + i * 10;
+                    gravityCtx.beginPath();
+                    gravityCtx.arc(this.x, this.y, radius, 0, Math.PI * 2);
+                    gravityCtx.strokeStyle = `hsl(${i * 60}, 100%, 50%)`;
+                    gravityCtx.lineWidth = 2;
+                    gravityCtx.stroke();
+                }
+                
+                // Gravitational lensing effect
+                const gradient = gravityCtx.createRadialGradient(
+                    this.x, this.y, this.radius * 2,
+                    this.x, this.y, this.radius * 4
+                );
+                gradient.addColorStop(0, 'rgba(100, 100, 255, 0.1)');
+                gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+                
+                gravityCtx.beginPath();
+                gravityCtx.arc(this.x, this.y, this.radius * 4, 0, Math.PI * 2);
+                gravityCtx.fillStyle = gradient;
+                gravityCtx.fill();
+            }
+        }
+        
+        function addRandomPlanet() {
+            const x = Math.random() * gravityCanvas.width;
+            const y = Math.random() * gravityCanvas.height;
+            const vx = (Math.random() - 0.5) * 2;
+            const vy = (Math.random() - 0.5) * 2;
+            const mass = 5 + Math.random() * 20;
+            const hue = Math.random() * 360;
+            const color = `hsl(${hue}, 100%, 60%)`;
             
-            resumeBtn.addEventListener('click', () => {
-                isPaused = false;
-                messageEl.textContent = "Countdown resumed!";
-            });
+            planets.push(new Planet(x, y, vx, vy, mass, color));
+        }
+        
+        function addBlackHole() {
+            if (blackHole) return;
             
-            celebrateBtn.addEventListener('click', createConfetti);
+            const x = gravityCanvas.width / 2;
+            const y = gravityCanvas.height / 2;
+            blackHole = new BlackHole(x, y);
+        }
+        
+        function resetGravity() {
+            planets = [];
+            blackHole = null;
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+                animationFrameId = null;
+            }
+            gravityCtx.clearRect(0, 0, gravityCanvas.width, gravityCanvas.height);
+        }
+        
+        function animateGravity() {
+            gravityCtx.fillStyle = 'rgba(10, 5, 30, 0.2)';
+            gravityCtx.fillRect(0, 0, gravityCanvas.width, gravityCanvas.height);
             
-            themeToggle.addEventListener('click', () => {
-                document.body.classList.toggle('light-theme');
-                const icon = themeToggle.querySelector('i');
-                if (document.body.classList.contains('light-theme')) {
-                    document.body.style.background = 'linear-gradient(135deg, #e0e0ff, #f0f0ff, #d0d0ff)';
-                    icon.classList.remove('fa-moon');
-                    icon.classList.add('fa-sun');
+            if (blackHole) {
+                blackHole.draw();
+            }
+            
+            // Update and draw planets
+            for (let i = planets.length - 1; i >= 0; i--) {
+                const planet = planets[i];
+                planet.update();
+                
+                if (planet.mass <= 0) {
+                    planets.splice(i, 1);
                 } else {
-                    document.body.style.background = 'linear-gradient(135deg, #0c0c1d, #1a0a2e, #2d0a3a)';
-                    icon.classList.remove('fa-sun');
-                    icon.classList.add('fa-moon');
+                    planet.draw();
+                }
+            }
+            
+            animationFrameId = requestAnimationFrame(animateGravity);
+        }
+        
+        // Trivia quiz
+        const questionEl = document.getElementById('question');
+        const resultEl = document.getElementById('result');
+        const optionsEl = document.querySelectorAll('.option');
+        const nextBtn = document.getElementById('nextBtn');
+        
+        const questions = [
+            {
+                question: "How many Earths could fit inside the Sun?",
+                options: ["1.3 million", "130,000", "13 million", "130 million"],
+                correct: 0
+            },
+            {
+                question: "Which planet has the most moons?",
+                options: ["Jupiter", "Saturn", "Uranus", "Neptune"],
+                correct: 1
+            },
+            {
+                question: "What is the name of our galaxy?",
+                options: ["Andromeda", "Milky Way", "Sombrero", "Triangulum"],
+                correct: 1
+            },
+            {
+                question: "How long does it take light from the Sun to reach Earth?",
+                options: ["1 second", "8 minutes", "1 hour", "1 day"],
+                correct: 1
+            },
+            {
+                question: "What is the largest type of star?",
+                options: ["Red Dwarf", "Neutron Star", "Red Giant", "Hypergiant"],
+                correct: 3
+            }
+        ];
+        
+        let currentQuestion = 0;
+        let score = 0;
+        
+        function loadQuestion() {
+            const q = questions[currentQuestion];
+            questionEl.textContent = q.question;
+            
+            optionsEl.forEach((option, index) => {
+                option.textContent = q.options[index];
+                option.dataset.correct = index === q.correct ? "true" : "false";
+                option.style.backgroundColor = "";
+                option.style.borderColor = "";
+            });
+            
+            resultEl.textContent = "";
+        }
+        
+        function checkAnswer(e) {
+            const selectedOption = e.target;
+            const isCorrect = selectedOption.dataset.correct === "true";
+            
+            if (isCorrect) {
+                selectedOption.style.backgroundColor = "rgba(0, 255, 0, 0.2)";
+                selectedOption.style.borderColor = "#00ff00";
+                resultEl.textContent = "Correct!";
+                score++;
+            } else {
+                selectedOption.style.backgroundColor = "rgba(255, 0, 0, 0.2)";
+                selectedOption.style.borderColor = "#ff0000";
+                resultEl.textContent = "Incorrect!";
+                
+                // Highlight correct answer
+                optionsEl.forEach(option => {
+                    if (option.dataset.correct === "true") {
+                        option.style.backgroundColor = "rgba(0, 255, 0, 0.2)";
+                        option.style.borderColor = "#00ff00";
+                    }
+                });
+            }
+            
+            // Disable further selections
+            optionsEl.forEach(option => {
+                option.style.pointerEvents = "none";
+            });
+        }
+        
+        function nextQuestion() {
+            currentQuestion = (currentQuestion + 1) % questions.length;
+            
+            // Re-enable selections
+            optionsEl.forEach(option => {
+                option.style.pointerEvents = "auto";
+                option.style.backgroundColor = "";
+                option.style.borderColor = "";
+            });
+            
+            loadQuestion();
+        }
+        
+        // Initialize everything
+        window.onload = function() {
+            createStars();
+            createParticles();
+            setupNebulaCanvas();
+            setupGravityCanvas();
+            loadQuestion();
+            
+            // Nebula painter event listeners
+            nebulaCanvas.addEventListener('mousedown', startPainting);
+            nebulaCanvas.addEventListener('mousemove', draw);
+            nebulaCanvas.addEventListener('mouseup', stopPainting);
+            nebulaCanvas.addEventListener('mouseleave', stopPainting);
+            
+            document.getElementById('clearBtn').addEventListener('click', clearCanvas);
+            document.getElementById('starBtn').addEventListener('click', addStars);
+            document.getElementById('animateBtn').addEventListener('click', animateNebula);
+            document.getElementById('saveBtn').addEventListener('click', saveCanvas);
+            
+            // Gravity simulator event listeners
+            document.getElementById('addPlanetBtn').addEventListener('click', function() {
+                addRandomPlanet();
+                if (!animationFrameId) {
+                    animateGravity();
                 }
             });
-        }
-        
-        // Start everything
-        window.onload = init;
+            
+            document.getElementById('resetGravityBtn').addEventListener('click', resetGravity);
+            document.getElementById('addBlackholeBtn').addEventListener('click', function() {
+                addBlackHole();
+                if (!animationFrameId) {
+                    animateGravity();
+                }
+            });
+            
+            // Trivia event listeners
+            optionsEl.forEach(option => {
+                option.addEventListener('click', checkAnswer);
+            });
+            
+            nextBtn.addEventListener('click', nextQuestion);
+            
+            // Card button event listeners
+            document.getElementById('galaxyBtn').addEventListener('click', function() {
+                alert("Galaxy generation sequence initiated! Preparing cosmic matter...");
+            });
+            
+            document.getElementById('blackholeBtn').addEventListener('click', function() {
+                alert("Entering event horizon... Space-time distortion detected!");
+            });
+            
+            document.getElementById('translatorBtn').addEventListener('click', function() {
+                alert("Alien translator activated! Scanning for extraterrestrial communications...");
+            });
+            
+            document.getElementById('soundBtn').addEventListener('click', function() {
+                alert("Cosmic soundscape initiated! Converting electromagnetic waves to audio...");
+            });
+        };
     </script>
 </body>
 </html>
