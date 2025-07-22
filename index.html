@@ -3,59 +3,619 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Countdown Timer</title>
+    <title>Cosmic Countdown</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --primary: #8a2be2;
+            --secondary: #ff00ff;
+            --accent: #00ffff;
+            --dark: #0c0c1d;
+            --light: #ffffff;
+            --glass: rgba(255, 255, 255, 0.05);
+            --glow: 0 0 15px var(--accent), 0 0 30px rgba(0, 195, 255, 0.3);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Exo 2', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            background-image: url('wall1.jpg'); /* Background image */
-            background-size: cover; /* Cover the entire page */
-            background-position: center; /* Center the background image */
-            margin: 0;
-            color: white; /* Ensure text is visible against the background */
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0c0c1d, #1a0a2e, #2d0a3a);
+            color: var(--light);
+            overflow: hidden;
+            position: relative;
         }
-        .countdown {
-            font-size: 40px;
-            background-color: transparent; /* Semi-transparent black background for readability */
-            padding: 20px;
+        
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(138, 43, 226, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 80% 70%, rgba(255, 0, 255, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 50% 10%, rgba(0, 255, 255, 0.1) 0%, transparent 40%);
+            z-index: -1;
+        }
+        
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle var(--duration, 5s) infinite ease-in-out;
+            opacity: var(--opacity, 0.7);
+        }
+        
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 1; }
+        }
+        
+        .container {
+            max-width: 1200px;
+            width: 95%;
+            text-align: center;
+            padding: 2rem;
+            z-index: 10;
+        }
+        
+        .header {
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+        
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--secondary), var(--primary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 10px rgba(0, 195, 255, 0.3);
+            animation: pulse 3s infinite alternate;
+        }
+        
+        @keyframes pulse {
+            0% { text-shadow: 0 0 10px rgba(0, 195, 255, 0.3); }
+            100% { text-shadow: 0 0 20px rgba(0, 195, 255, 0.7), 0 0 30px rgba(138, 43, 226, 0.5); }
+        }
+        
+        .subtitle {
+            font-size: 1.5rem;
+            font-weight: 300;
+            margin-bottom: 0.5rem;
+            color: #d0d0ff;
+        }
+        
+        .date-display {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 2rem;
+            letter-spacing: 1px;
+        }
+        
+        .countdown-container {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+        
+        .countdown-box {
+            width: 180px;
+            height: 200px;
+            background: var(--glass);
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .countdown-box:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--glow);
+            border: 1px solid var(--accent);
+        }
+        
+        .countdown-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(transparent, var(--accent), transparent 30%);
+            animation: rotate 4s linear infinite;
+        }
+        
+        .countdown-box::after {
+            content: '';
+            position: absolute;
+            inset: 4px;
+            background: linear-gradient(145deg, rgba(20, 20, 40, 0.9), rgba(10, 10, 25, 0.9));
+            border-radius: 12px;
+        }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .countdown-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4rem;
+            font-weight: 700;
+            z-index: 2;
+            color: var(--light);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+        }
+        
+        .countdown-label {
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 0.5rem;
+            z-index: 2;
+            color: #b0b0ff;
+        }
+        
+        .progress-container {
+            width: 100%;
+            height: 20px;
+            background: rgba(0, 0, 0, 0.3);
             border-radius: 10px;
+            margin: 2rem auto;
+            overflow: hidden;
+            max-width: 800px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            width: 0%;
+            border-radius: 10px;
+            transition: width 1s ease-out;
+            box-shadow: 0 0 10px rgba(138, 43, 226, 0.5);
+        }
+        
+        .progress-text {
+            margin-top: 0.5rem;
+            font-size: 1.1rem;
+            color: var(--accent);
+        }
+        
+        .message {
+            font-size: 1.8rem;
+            margin: 2rem 0;
+            min-height: 60px;
+            color: var(--accent);
+            font-weight: 600;
+            text-shadow: 0 0 10px rgba(0, 195, 255, 0.3);
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .control-btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            color: white;
+            font-family: 'Exo 2', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 5px 15px rgba(138, 43, 226, 0.4);
+        }
+        
+        .control-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(138, 43, 226, 0.6);
+        }
+        
+        .control-btn:active {
+            transform: translateY(1px);
+        }
+        
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--glass);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            z-index: 100;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+        
+        .theme-toggle:hover {
+            transform: rotate(30deg);
+            box-shadow: var(--glow);
+            border-color: var(--accent);
+        }
+        
+        .theme-toggle i {
+            font-size: 1.5rem;
+            color: var(--accent);
+        }
+        
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: var(--color);
+            border-radius: 50%;
+            animation: fall linear forwards;
+        }
+        
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Responsive design */
+        @media (max-width: 900px) {
+            .countdown-box {
+                width: 150px;
+                height: 170px;
+            }
+            
+            .countdown-value {
+                font-size: 3.2rem;
+            }
+            
+            h1 {
+                font-size: 2.8rem;
+            }
+        }
+        
+        @media (max-width: 650px) {
+            .countdown-box {
+                width: 120px;
+                height: 140px;
+            }
+            
+            .countdown-value {
+                font-size: 2.5rem;
+            }
+            
+            .countdown-label {
+                font-size: 1rem;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .date-display {
+                font-size: 1.4rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .countdown-box {
+                width: 100px;
+                height: 120px;
+            }
+            
+            .countdown-value {
+                font-size: 2rem;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .subtitle {
+                font-size: 1.2rem;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="countdown" id="countdown"></div>
-
+    <div class="stars" id="stars"></div>
+    <div class="particles" id="particles"></div>
+    
+    <div class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>Cosmic Countdown</h1>
+            <div class="subtitle">Journey to the Future</div>
+            <div class="date-display" id="targetDate">December 29, 2024 23:59:00</div>
+        </div>
+        
+        <div class="countdown-container">
+            <div class="countdown-box">
+                <div class="countdown-value" id="days">00</div>
+                <div class="countdown-label">Days</div>
+            </div>
+            <div class="countdown-box">
+                <div class="countdown-value" id="hours">00</div>
+                <div class="countdown-label">Hours</div>
+            </div>
+            <div class="countdown-box">
+                <div class="countdown-value" id="minutes">00</div>
+                <div class="countdown-label">Minutes</div>
+            </div>
+            <div class="countdown-box">
+                <div class="countdown-value" id="seconds">00</div>
+                <div class="countdown-label">Seconds</div>
+            </div>
+        </div>
+        
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <div class="progress-text" id="progressText">Progress: 0%</div>
+        
+        <div class="message" id="message">The countdown has begun...</div>
+        
+        <div class="controls">
+            <button class="control-btn" id="pauseBtn"><i class="fas fa-pause"></i> Pause</button>
+            <button class="control-btn" id="resumeBtn"><i class="fas fa-play"></i> Resume</button>
+            <button class="control-btn" id="celebrateBtn"><i class="fas fa-party-horn"></i> Celebrate</button>
+        </div>
+    </div>
+    
     <script>
-        // Set the target date to December 29th, 11:59 PM (11:59:00)
+        // Create stars background
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            const starCount = 150;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                
+                // Random properties
+                const size = Math.random() * 3;
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                const opacity = 0.2 + Math.random() * 0.8;
+                const duration = 2 + Math.random() * 8;
+                
+                star.style.width = `${size}px`;
+                star.style.height = `${size}px`;
+                star.style.left = `${posX}%`;
+                star.style.top = `${posY}%`;
+                star.style.opacity = opacity;
+                star.style.setProperty('--duration', `${duration}s`);
+                star.style.setProperty('--opacity', opacity);
+                
+                starsContainer.appendChild(star);
+            }
+        }
+        
+        // Set the target date to December 29th, 11:59 PM
         const targetDate = new Date('December 29, 2024 23:59:00');
-
+        let isPaused = false;
+        let interval;
+        let startDate = new Date();
+        
+        // DOM Elements
+        const daysEl = document.getElementById('days');
+        const hoursEl = document.getElementById('hours');
+        const minutesEl = document.getElementById('minutes');
+        const secondsEl = document.getElementById('seconds');
+        const progressBar = document.getElementById('progressBar');
+        const progressText = document.getElementById('progressText');
+        const messageEl = document.getElementById('message');
+        const pauseBtn = document.getElementById('pauseBtn');
+        const resumeBtn = document.getElementById('resumeBtn');
+        const celebrateBtn = document.getElementById('celebrateBtn');
+        const themeToggle = document.getElementById('themeToggle');
+        
+        // Messages to display during countdown
+        const messages = [
+            "The countdown has begun...",
+            "Time is ticking...",
+            "Every moment brings us closer!",
+            "Patience is a virtue...",
+            "The future is approaching fast!",
+            "Adventure awaits!",
+            "Prepare for something amazing!",
+            "The anticipation builds...",
+            "Great things are coming!",
+            "Almost there..."
+        ];
+        
+        // Function to create confetti
+        function createConfetti() {
+            const particlesContainer = document.getElementById('particles');
+            particlesContainer.innerHTML = '';
+            
+            const colors = ['#ff00ff', '#8a2be2', '#00ffff', '#ff1493', '#7fff00'];
+            const count = 150;
+            
+            for (let i = 0; i < count; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                
+                // Random properties
+                const size = 5 + Math.random() * 10;
+                const posX = Math.random() * 100;
+                const duration = 2 + Math.random() * 3;
+                const delay = Math.random() * 5;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                
+                confetti.style.width = `${size}px`;
+                confetti.style.height = `${size}px`;
+                confetti.style.left = `${posX}%`;
+                confetti.style.backgroundColor = color;
+                confetti.style.setProperty('--color', color);
+                confetti.style.animation = `fall ${duration}s linear ${delay}s forwards`;
+                
+                particlesContainer.appendChild(confetti);
+            }
+        }
+        
         // Function to update the countdown
         function updateCountdown() {
+            if (isPaused) return;
+            
             const currentDate = new Date();
             const timeRemaining = targetDate - currentDate;
-
+            
             if (timeRemaining <= 0) {
-                document.getElementById("countdown").innerHTML = "Countdown finished!";
-                clearInterval(interval); // Stop the countdown when finished
+                daysEl.textContent = '00';
+                hoursEl.textContent = '00';
+                minutesEl.textContent = '00';
+                secondsEl.textContent = '00';
+                progressBar.style.width = '100%';
+                progressText.textContent = 'Progress: 100%';
+                messageEl.textContent = "The moment has arrived! 🎉";
+                clearInterval(interval);
+                createConfetti();
                 return;
             }
-
+            
             const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
             const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
-
-            // Display the countdown
-            document.getElementById("countdown").innerHTML = 
-                days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+            
+            // Update display
+            daysEl.textContent = days.toString().padStart(2, '0');
+            hoursEl.textContent = Math.floor(hours).toString().padStart(2, '0');
+            minutesEl.textContent = Math.floor(minutes).toString().padStart(2, '0');
+            secondsEl.textContent = seconds.toString().padStart(2, '0');
+            
+            // Calculate and update progress
+            const totalDuration = targetDate - startDate;
+            const elapsed = totalDuration - timeRemaining;
+            const progressPercent = (elapsed / totalDuration) * 100;
+            
+            progressBar.style.width = `${Math.min(100, progressPercent)}%`;
+            progressText.textContent = `Progress: ${Math.min(100, Math.round(progressPercent))}%`;
+            
+            // Randomly update message every 10 seconds
+            if (seconds % 10 === 0) {
+                const randomIndex = Math.floor(Math.random() * messages.length);
+                messageEl.textContent = messages[randomIndex];
+            }
+            
+            // Animate the numbers
+            animateNumber(daysEl, days);
+            animateNumber(hoursEl, Math.floor(hours));
+            animateNumber(minutesEl, Math.floor(minutes));
+            animateNumber(secondsEl, seconds);
         }
-
-        // Update the countdown every second
-        const interval = setInterval(updateCountdown, 1000);
+        
+        // Function to animate number changes
+        function animateNumber(element, newValue) {
+            if (element.textContent !== newValue.toString().padStart(2, '0')) {
+                element.style.transform = 'scale(1.2)';
+                element.style.color = '#ff00ff';
+                setTimeout(() => {
+                    element.style.transform = 'scale(1)';
+                    element.style.color = 'white';
+                }, 300);
+            }
+        }
+        
+        // Initialize
+        function init() {
+            createStars();
+            updateCountdown();
+            interval = setInterval(updateCountdown, 1000);
+            
+            // Event listeners
+            pauseBtn.addEventListener('click', () => {
+                isPaused = true;
+                messageEl.textContent = "Countdown paused...";
+            });
+            
+            resumeBtn.addEventListener('click', () => {
+                isPaused = false;
+                messageEl.textContent = "Countdown resumed!";
+            });
+            
+            celebrateBtn.addEventListener('click', createConfetti);
+            
+            themeToggle.addEventListener('click', () => {
+                document.body.classList.toggle('light-theme');
+                const icon = themeToggle.querySelector('i');
+                if (document.body.classList.contains('light-theme')) {
+                    document.body.style.background = 'linear-gradient(135deg, #e0e0ff, #f0f0ff, #d0d0ff)';
+                    icon.classList.remove('fa-moon');
+                    icon.classList.add('fa-sun');
+                } else {
+                    document.body.style.background = 'linear-gradient(135deg, #0c0c1d, #1a0a2e, #2d0a3a)';
+                    icon.classList.remove('fa-sun');
+                    icon.classList.add('fa-moon');
+                }
+            });
+        }
+        
+        // Start everything
+        window.onload = init;
     </script>
 </body>
 </html>
-
